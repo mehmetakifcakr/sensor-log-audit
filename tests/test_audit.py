@@ -28,6 +28,12 @@ class AuditTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.check_csv('time_s,value\n0,1\n', 0)
 
+    def test_duplicate_required_headers_are_rejected(self):
+        for data in ('time_s,time_s,value\n0,1,2\n',
+                     'time_s,value,value\n0,1,2\n'):
+            with self.subTest(data=data), self.assertRaises(ValueError):
+                self.check_csv(data)
+
     def test_no_valid_samples(self):
         count, issues = self.check_csv('time_s,value\n')
         self.assertEqual(count, 0)

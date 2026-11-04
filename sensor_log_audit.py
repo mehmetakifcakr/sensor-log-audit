@@ -14,7 +14,7 @@ def audit(path, period, tolerance=0.1):
     previous = None
     count = 0
     with open(path, newline='', encoding='utf-8-sig') as f:
-        reader = csv.DictReader(f)
+        reader = csv.DictReader(f, strict=True)
         if not reader.fieldnames or not {'time_s', 'value'} <= set(reader.fieldnames):
             raise ValueError('CSV must contain time_s and value columns')
         if any(reader.fieldnames.count(name) != 1 for name in ('time_s', 'value')):

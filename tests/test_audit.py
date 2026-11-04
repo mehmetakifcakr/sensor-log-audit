@@ -1,3 +1,4 @@
+import csv
 import tempfile
 import unittest
 from pathlib import Path
@@ -33,6 +34,10 @@ class AuditTests(unittest.TestCase):
                      'time_s,value,value\n0,1,2\n'):
             with self.subTest(data=data), self.assertRaises(ValueError):
                 self.check_csv(data)
+
+    def test_unclosed_quote_is_invalid_csv(self):
+        with self.assertRaises(csv.Error):
+            self.check_csv('time_s,value\n0,"1\n')
 
     def test_no_valid_samples(self):
         count, issues = self.check_csv('time_s,value\n')

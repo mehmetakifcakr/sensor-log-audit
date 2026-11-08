@@ -20,6 +20,9 @@ def audit(path, period, tolerance=0.1):
         if any(reader.fieldnames.count(name) != 1 for name in ('time_s', 'value')):
             raise ValueError('time_s and value columns must each appear exactly once')
         for line, row in enumerate(reader, 2):
+            if None in row:
+                issues.append(f'line {line}: extra values beyond CSV header')
+                continue
             try:
                 t, value = float(row['time_s']), float(row['value'])
                 if not math.isfinite(t) or not math.isfinite(value):

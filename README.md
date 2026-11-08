@@ -11,7 +11,7 @@ python3 sensor_log_audit.py examples/sample.csv --period 1
 python3 -m unittest discover -s tests -v
 ```
 
-The CSV must have exactly one `time_s` and one `value` column; duplicate required headers are rejected. Timestamps are numeric seconds, and the expected sampling interval is given by `--period`. `--tolerance` is a relative gap threshold (default 0.1). Extra columns are ignored; malformed CSV quoting is rejected. Exit status is 0 for a clean file, 1 for detected issues and 2 for invalid arguments or file errors.
+The CSV must have exactly one `time_s` and one `value` column; duplicate required headers are rejected. Timestamps are numeric seconds, and the expected sampling interval is given by `--period`. `--tolerance` is a relative gap threshold (default 0.1). Extra header columns are ignored; rows with values beyond the header are reported and excluded. Malformed CSV quoting is rejected. Exit status is 0 for a clean file, 1 for detected issues and 2 for invalid arguments or file errors.
 
 ## Scope
 

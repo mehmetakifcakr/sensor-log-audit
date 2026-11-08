@@ -23,6 +23,11 @@ class AuditTests(unittest.TestCase):
         self.assertIn('not increasing', issues[1])
         self.assertIn('invalid', issues[2])
 
+    def test_extra_values_are_reported_and_excluded(self):
+        count, issues = self.check_csv('time_s,value\n0,1,unexpected\n1,2\n')
+        self.assertEqual(count, 1)
+        self.assertEqual(issues, ['line 2: extra values beyond CSV header'])
+
     def test_header_and_period_validation(self):
         with self.assertRaises(ValueError):
             self.check_csv('time,value\n0,1\n')
